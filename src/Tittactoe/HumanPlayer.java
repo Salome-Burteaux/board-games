@@ -1,5 +1,10 @@
+package Tittactoe;
+
+import Common.InteractionUtilisateur;
+import Common.Player;
+import View.View;
+
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class HumanPlayer extends Player {
 

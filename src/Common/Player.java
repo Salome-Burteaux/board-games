@@ -1,6 +1,8 @@
+package Common;
+
 public abstract class Player {
 
-    private final String representation;
+    protected final String representation;
 
     protected Player(String representation) {
         this.representation = representation;

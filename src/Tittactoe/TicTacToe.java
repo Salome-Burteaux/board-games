@@ -1,10 +1,14 @@
-import java.util.Arrays;
+package Tittactoe;
+
+import Common.Player;
+import Common.Cell;
+import Common.BoardGame;
+import View.View;
+
 import java.util.Scanner;
-
-
 import static java.lang.System.exit;
 
-public class TicTacToe {
+public class TicTacToe extends BoardGame {
 
     private final int size = 3;
     private final String[][] board = new String[size][size];

@@ -1,3 +1,5 @@
+package Common;
+
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
@@ -7,4 +9,6 @@ public class InteractionUtilisateur {
         return scanner.nextInt();
 
     }
+
+
 }
