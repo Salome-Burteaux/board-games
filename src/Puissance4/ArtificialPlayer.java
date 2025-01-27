@@ -1,6 +1,7 @@
 package Puissance4;
 
 import Common.Player;
+import Common.Cell;
 
 
 import java.util.ArrayList;
@@ -15,28 +16,22 @@ public class ArtificialPlayer extends Player {
     }
 
     @Override
-    public int[] getMoveFromPlayer(String[][] board) {
-
-        ArrayList<int[][]> emptyCells = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].equals("|   ")) {
-                    //chaque cellule vide est enregistrée dans emptyCells
-                    emptyCells.add(new int[][]{{i, j}});
-                }
-            }
-        }
+    public int[] getMoveFromPlayer(String[][] board, int line, int col) {
+        Cell Cell = new Cell();
+        int[] coordoAP = new int[2];
 
         Random rand = new Random();
+        int APCol = rand.nextInt(col);
+        coordoAP[1] = APCol;
 
-        //génère un index aléatoire entre 0 et le nombre de d'éléments dans emptyCells
-        int randomIndex = rand.nextInt(emptyCells.size());
 
-        //récupère élément à index aléatoire dans empyCells
-        int[] randomCell = emptyCells.get(randomIndex)[0];
+        for (int APLine = line-1; APLine >= 0; APLine--) {
+            if (board[APLine][APCol].equals(Cell.getRepresentation())) {
+                coordoAP[0] = APLine;
+                return coordoAP;
+            }
 
-        System.out.println(Arrays.toString(randomCell));
-
-        return randomCell;
-    };
+        }
+        return coordoAP;
+    }
 }

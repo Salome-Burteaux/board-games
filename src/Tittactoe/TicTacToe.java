@@ -16,46 +16,45 @@ public class TicTacToe extends BoardGame {
     private int actualPlayer = 1;
     private Player player1;
     private Player player2;
+
     private Cell Cell = new Cell();
     View view = new View();
 
-
+    public TicTacToe(int line, int col) {
+        super(line, col);
+    }
 
 
     //affiche tableau de départ et fait appel à endGame() getMoveFromPlayer() et setOwner()
-    private void display() {
+    public void display() {
 
        for (int i = 0; i < board.length; i++) {
 
             String line = "";
-            view.getSentence("-------------");
+            view.getSentence("-----------------");
 
             for (int j = 0; j < board.length; j++) {
 
                 if (!isNewGame) {
-
                     board[i][j] = Cell.getRepresentation();
-
                 }
-
                 line += board[i][j];
-
                 if (j == board.length - 1) {
-
                     line += "|";
                 }
-
-
             }
            view.getSentence(line);
         }
-        String separation = "-------------";
+        String separation = "-----------------";
         view.getSentence(separation);
 
         endGame();
-        if (isOver()) {
+        if (isOver(player1)) {
             view.getSentence("BRAVO");
-
+            exit(0);
+        }
+        else if (isOver(player2)) {
+            view.getSentence("BRAVO");
             exit(0);
         }
 
@@ -65,7 +64,7 @@ public class TicTacToe extends BoardGame {
 
     }
 
-    private void getPlayer() {
+    public void getPlayer() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -98,17 +97,17 @@ public class TicTacToe extends BoardGame {
     }
 
     // récupère les positions des players et les attribue dans le board
-    private void setOwner() {
+    public void setOwner() {
         int[]position;
 
         if (actualPlayer == 1) {
-            position = player1.getMoveFromPlayer(board);
+            position = player1.getMoveFromPlayer(board, size, size);
             board[position[0]][position[1]] = player1.getRepresentation();
             actualPlayer = 2;
 
         } else {
 
-            position = player2.getMoveFromPlayer(board);
+            position = player2.getMoveFromPlayer(board, size, size);
             board[position[0]][position[1]] = player2.getRepresentation() ;
             actualPlayer = 1;
         }
@@ -126,17 +125,15 @@ public class TicTacToe extends BoardGame {
     }
 
     //vérifie le nombre de cases vides restantes
-    private void endGame() {
+    public void endGame() {
         int nbCellFull = 0;
 
         for (int i = 0; i < board.length; i++) {
 
             for (int j = 0; j < board.length; j++) {
-                if (board[i][j] != "|   " && board[i][j] != "   |") {
+                if (board[i][j] != Cell.getRepresentation()) {
                     nbCellFull += 1;
                 }
-
-                if (board[i][j] != "|   " && board[i][j] != "   |") {}
             }
         }
         if (nbCellFull == size * size) {
@@ -146,45 +143,29 @@ public class TicTacToe extends BoardGame {
 
 
     //conditions de victoire
-    private boolean isOver() {
+    public boolean isOver(Player player) {
 
-        if(board[0][0] == board[0][1] && board[0][0] == board[0][2] && board[0][0] != "|   ") {
+        // vérifie lignes
+        for (int i = 0; i < size; i++) {
+            if(board[i][0].equals(player.getRepresentation()) && board[i][1].equals(player.getRepresentation()) && board[i][2].equals(player.getRepresentation())) {
+                return true;
+            }
+        }
 
+        // vérifie colonnes
+        for (int i = 0; i < size; i++) {
+            if(board[0][i].equals(player.getRepresentation()) && board[1][i].equals(player.getRepresentation()) && board[2][i].equals(player.getRepresentation())) {
+                return true;
+            }
+        }
+
+        //vérifie diagonale descendante
+        if(board[0][0].equals(player.getRepresentation()) && board[1][1].equals(player.getRepresentation()) && board[2][2].equals(player.getRepresentation())) {
             return true;
         }
 
-        if(board[1][0] == board[1][1] && board[1][0] == board[1][2] && board[1][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[2][0] == board[2][1] && board[2][0] == board[2][2] && board[2][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[0][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != "|   ") {
-
-            return true;
-        }
-
-        if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != "|   ") {
-
+        // vérifie diagonale montante
+        if(board[2][0].equals(player.getRepresentation()) && board[1][1].equals(player.getRepresentation()) && board[0][2].equals(player.getRepresentation())) {
             return true;
         }
 

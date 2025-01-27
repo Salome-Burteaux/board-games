@@ -5,6 +5,7 @@ public abstract class Player {
     protected final String representation;
 
     protected Player(String representation) {
+
         this.representation = representation;
     }
 
@@ -13,7 +14,7 @@ public abstract class Player {
     }
 
     //déclaration d'une méthode getMoveFromPlayer qui sera personnalisée dans chaque classe enfant
-    public abstract int[] getMoveFromPlayer(String[][] board);
+    public abstract int[] getMoveFromPlayer(String[][] board, int line, int col);
 }
 
 

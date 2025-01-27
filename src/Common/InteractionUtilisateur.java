@@ -5,10 +5,11 @@ import java.util.Scanner;
 public class InteractionUtilisateur {
         Scanner scanner = new Scanner(System.in);
 
-    public int getPlayerMove() {
+    public int getPlayerChoice() {
         return scanner.nextInt();
-
     }
+
+
 
 
 }

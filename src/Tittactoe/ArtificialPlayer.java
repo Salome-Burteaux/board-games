@@ -13,21 +13,22 @@ public class ArtificialPlayer extends Player {
     }
 
     @Override
-    public int[] getMoveFromPlayer(String[][] board) {
+    public int[] getMoveFromPlayer(String[][] board, int line, int col) {
 
         ArrayList<int[][]> emptyCells = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].equals("|   ")) {
+        for (int i = 0; i < line; i++) {
+            for (int j = 0; j < col; j++) {
+                if (board[i][j].equals("|    ")) {
                     //chaque cellule vide est enregistrée dans emptyCells
                     emptyCells.add(new int[][]{{i, j}});
                 }
             }
         }
 
+
         Random rand = new Random();
 
-        //génère un index aléatoire entre 0 et le nombre de d'éléments dans emptyCells
+        //génère un index aléatoire entre 0 et le nombre d'éléments dans emptyCells
         int randomIndex = rand.nextInt(emptyCells.size());
 
         //récupère élément à index aléatoire dans empyCells

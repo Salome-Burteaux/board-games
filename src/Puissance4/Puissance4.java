@@ -1,5 +1,6 @@
 package Puissance4;
 
+import Common.BoardGame;
 import Common.Player;
 import Common.Cell;
 import View.View;
@@ -8,7 +9,7 @@ import View.View;
 import static java.lang.System.exit;
 import java.util.Scanner;
 
-public class Puissance4 {
+public class Puissance4 extends BoardGame {
 
     private final int line = 6;
     private final int col = 7;
@@ -20,37 +21,33 @@ public class Puissance4 {
     private Cell Cell = new Cell();
     View view = new View();
 
-
+    public Puissance4(int line, int col) {
+        super(line, col);
+    }
 
 
     //affiche tableau de départ et fait appel à endGame() getMoveFromPlayer() et setOwner()
-    private void display() {
+    public void display() {
 
-       for (int i = 0; i < board.length; i++) {
+       for (int i = 0; i < line; i++) {
 
             String line = "";
-            view.getSentence("--------------------------");
+            view.getSentence("------------------------------------");
 
-            for (int j = 0; j < board.length; j++) {
+            for (int j = 0; j < col; j++) {
 
                 if (!isNewGame) {
-
                     board[i][j] = Cell.getRepresentation();
-
                 }
-
                 line += board[i][j];
 
-                if (j == board.length - 1) {
-
+                if (j == col - 1) {
                     line += "|";
                 }
-
-
             }
            view.getSentence(line);
         }
-        String separation = "--------------------------";
+        String separation = "------------------------------------";
         view.getSentence(separation);
 
         endGame();
@@ -69,7 +66,7 @@ public class Puissance4 {
 
     }
 
-    private void getPlayer() {
+    public void getPlayer() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -102,17 +99,17 @@ public class Puissance4 {
     }
 
     // récupère les positions des players et les attribue dans le board
-    private void setOwner() {
+    public void setOwner() {
         int[]position;
 
         if (actualPlayer == 1) {
-            position = player1.getMoveFromPlayer(board);
+            position = player1.getMoveFromPlayer(board, line, col);
             board[position[0]][position[1]] = player1.getRepresentation();
             actualPlayer = 2;
 
         } else {
 
-            position = player2.getMoveFromPlayer(board);
+            position = player2.getMoveFromPlayer(board, line, col);
             board[position[0]][position[1]] = player2.getRepresentation() ;
             actualPlayer = 1;
         }
@@ -129,36 +126,37 @@ public class Puissance4 {
         display();
     }
 
-    //vérifie le nombre de cases vides restantes
-    private void endGame() {
+    //vérifie le nombre de cases vides restantes, retourne match nul si board pleine
+    public void endGame() {
         int nbCellFull = 0;
 
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < line; i++) {
 
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j] != "|   " && board[i][j] != "   |") {
+            for (int j = 0; j < col; j++) {
+                if (board[i][j] != Cell.getRepresentation()) {
                     nbCellFull += 1;
                 }
-
-                if (board[i][j] != "|   " && board[i][j] != "   |") {}
             }
         }
-        if (nbCellFull == line * col) {
+        if (nbCellFull == col * line) {
+            view.getSentence("Match nul");
             exit(0);
         }
     }
 
 
     //conditions de victoire
-    private boolean isOver(Player player) {
+    public boolean isOver(Player player) {
 
         for (int i = 0; i < line; i++) {
             // Vérifie les conditions horizontales
             for (int j = 0; j < col - 3; j++) {
                 //comparer le contenu de la cell par rapport à la représentation du joueur
-                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) && board[i][j] != null && board[i][j + 1].equals(player.getRepresentation()) &&
-                        board[i][j] != null && board[i][j + 2].equals(player.getRepresentation()) && board[i][j] != null && board[i][j + 3].equals(player.getRepresentation())) {
-                    return true;
+                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i][j + 1].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i][j + 2].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i][j + 3].equals(player.getRepresentation())) {
+                    return true; // Victoire horizontale
                 }
             }
         }
@@ -166,8 +164,10 @@ public class Puissance4 {
         // Vérifie les conditions verticales
         for (int i = 0; i < line - 3; i++) {
             for (int j = 0; j < col; j++) {
-                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) && board[i][j] != null && board[i + 1][j].equals(player.getRepresentation()) &&
-                        board[i][j] != null && board[i + 2][j].equals(player.getRepresentation()) && board[i][j] != null && board[i + 3][j].equals(player.getRepresentation())) {
+                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 1][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 2][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 3][j].equals(player.getRepresentation())) {
                     return true; // Victoire verticale
                 }
             }
@@ -176,8 +176,10 @@ public class Puissance4 {
         // Vérifie les diagonales descendantes
         for (int i = 0; i < line - 3; i++) {
             for (int j = 0; j < col - 3; j++) {
-                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) && board[i][j] != null && board[i + 1][j + 1].equals(player.getRepresentation()) &&
-                        board[i][j] != null && board[i + 2][j + 2].equals(player.getRepresentation()) && board[i][j] != null && board[i + 3][j + 3].equals(player.getRepresentation())) {
+                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 1][j + 1].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 2][j + 2].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i + 3][j + 3].equals(player.getRepresentation())) {
                     return true; // Victoire diagonale descendante
                 }
             }
@@ -186,19 +188,15 @@ public class Puissance4 {
         // Vérifie les diagonales montantes
         for (int i = 3; i < line; i++) {
             for (int j = 0; j < col - 3; j++) {
-                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) && board[i][j] != null && board[i - 1][j + 1].equals(player.getRepresentation()) &&
-                        board[i][j] != null && board[i - 2][j + 2].equals(player.getRepresentation()) && board[i][j] != null && board[i - 3][j + 3].equals(player.getRepresentation())) {
+                if (board[i][j] != null && board[i][j].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i - 1][j + 1].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i - 2][j + 2].equals(player.getRepresentation()) &&
+                    board[i][j] != null && board[i - 3][j + 3].equals(player.getRepresentation())) {
                     return true; // Victoire diagonale montante
                 }
             }
         }
-
         return false;
     }
-
-
-
-
-
 
 }
