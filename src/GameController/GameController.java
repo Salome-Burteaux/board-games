@@ -8,40 +8,35 @@ import View.View;
 
 public class GameController {
 
-    static InteractionUtilisateur interactionUtilisateur;
-    static View view;
+    //private GameState currentState;
+    private InteractionUtilisateur interactionUtilisateur;
+    private View view;
 
     public GameController() {
         view = new View();
         interactionUtilisateur = new InteractionUtilisateur();
+        //curentState = GameState.INITIALIZATION;
     }
 
-    public static void startGame(String action) {
+    //demande au joueur quel jeu il veut choisir et lance la partie en fonction
+    public void startGame() {
 
+        view.displayGamesChoice();
 
-        switch (action) {
-            case "userChooseGame":
+        switch (interactionUtilisateur.getPlayerChoice()) {
+            case 1:
+                Puissance4 puissance4 = new Puissance4(6,7);
+                puissance4.play();
+                break;
+            case 2:
+                TicTacToe ticTacToe = new TicTacToe(3,3);
+                ticTacToe.play();
+                break;
+            default:
+                view.invalidChoice();
                 view.displayGamesChoice();
-
-                switch (interactionUtilisateur.getPlayerChoice()) {
-                    case 1:
-                        Puissance4 puissance4 = new Puissance4(6,7);
-                        puissance4.play();
-                        break;
-                    case 2:
-                        TicTacToe ticTacToe = new TicTacToe(3,3);
-                        ticTacToe.play();
-                        break;
-                }
                 break;
-
-            case "userChoosePlayer":
-                ;
-                break;
-
-
         }
-
     }
-
 }
+

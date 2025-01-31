@@ -12,7 +12,6 @@ public abstract class BoardGame {
     private String[][] board;
     protected Player player1;
     protected Player player2;
-    private Board board1;
     private Cell Cell = new Cell();
 
 

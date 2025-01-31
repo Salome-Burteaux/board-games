@@ -55,7 +55,7 @@ public class TicTacToe extends BoardGame {
 
         Scanner scanner = new Scanner(System.in);
 
-        view.getSentence("Combien y a t-il de joueurs humains ?");
+        view.displayHowManyPlayerChoice();
 
         if (scanner.hasNextInt()) {
             int numberOfHumans = scanner.nextInt();

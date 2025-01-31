@@ -26,6 +26,12 @@ public class View {
         System.out.println("Combien y a t-il de joueurs humains ?");
     }
 
+    public void invalidChoice() {
+        System.out.println("Choix invalide. Veuillez réessayer.");
+    }
+
+
+
 
 
 }
