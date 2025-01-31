@@ -1,55 +1,53 @@
-package Puissance4;
+package Tictactoe;
 
-import Common.BoardGame;
 import Common.Player;
 import Common.Cell;
+import Common.BoardGame;
 import View.View;
 
-
-import static java.lang.System.exit;
 import java.util.Scanner;
+import static java.lang.System.exit;
 
-public class Puissance4 extends BoardGame {
-
+public class TicTacToe extends BoardGame {
 
     private Cell Cell = new Cell();
     View view = new View();
 
-    public Puissance4(int line, int col) {
+    public TicTacToe(int line, int col) {
         super(line, col, null, null);
     }
 
 
     //affiche tableau de départ et fait appel à endGame() getMoveFromPlayer() et setOwner()
+    @Override
     public void display() {
 
-       for (int i = 0; i < line; i++) {
+       for (int i = 0; i < getBoard().length; i++) {
 
             String line = "";
-            view.displayPuissance4BoardLines();
+            view.getSentence("-----------------");
 
-            for (int j = 0; j < col; j++) {
+            for (int j = 0; j < getBoard().length; j++) {
 
                 if (!isNewGame) {
                     getBoard()[i][j] = Cell.getRepresentation();
                 }
                 line += getBoard()[i][j];
-
-                if (j == col - 1) {
+                if (j == getBoard().length - 1) {
                     line += "|";
                 }
             }
            view.getSentence(line);
         }
-        view.displayPuissance4BoardLines();
+        String separation = "-----------------";
+        view.getSentence(separation);
 
         endGame();
 
-        if (isOver(4, line, col)){
-            view.displayCongrats();
+        if (isOver(3, getLine(), getCol())){
+            view.getSentence("BRAVO");
             exit(0);
         }
-
         setOwner();
     }
 
@@ -57,31 +55,29 @@ public class Puissance4 extends BoardGame {
 
         Scanner scanner = new Scanner(System.in);
 
-        view.displayHowManyPlayerChoice();
+        view.getSentence("Combien y a t-il de joueurs humains ?");
 
         if (scanner.hasNextInt()) {
             int numberOfHumans = scanner.nextInt();
 
             switch (numberOfHumans) {
                 case 0:
-                   player1 = new ArtificialPlayer("| 👻 ");
-                   player2 = new ArtificialPlayer("| 👽 ");
+                   player1 = new ArtificialPlayer("| O ");
+                    player2 = new ArtificialPlayer("| X ");
                     break;
 
                 case 1:
-                   player1 = new ArtificialPlayer("| 👻 ");
-                   player2 = new HumanPlayer("| 👽 ");
+                    player1 = new ArtificialPlayer("| 0 ");
+                   player2 = new HumanPlayer("| X ");
                     break;
 
                 case 2:
-                   player1 = new HumanPlayer("| 👻 ");
-                   player2 = new HumanPlayer("| 👽 ");
+                    player1 = new HumanPlayer("| O ");
+                   player2 = new HumanPlayer("| X ");
                    break;
             }
         }
     }
-
-
 
     public void play() {
 
@@ -89,5 +85,5 @@ public class Puissance4 extends BoardGame {
         display();
     }
 
-
 }
+

@@ -1,4 +1,4 @@
-package Tittactoe;
+package Tictactoe;
 
 import Common.Player;
 

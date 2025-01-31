@@ -1,4 +1,4 @@
-package Tittactoe;
+package Tictactoe;
 
 import Common.InteractionUtilisateur;
 import Common.Player;
@@ -43,7 +43,7 @@ public class HumanPlayer extends Player {
             }
         }
 
-        if (board[line][col] == "|   ") {
+        if (board[line][col] == "|    ") {
 
             coordoPlayer[0] = line;
             coordoPlayer[1] = col;
